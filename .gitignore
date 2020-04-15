@@ -6,3 +6,7 @@ export_presets.cfg
 data_*/
 .vscode/
 build/
+
+#Added by cargo
+
+/target
