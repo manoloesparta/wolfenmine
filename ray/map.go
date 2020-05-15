@@ -4,43 +4,44 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
-	"golang.org/x/image/colornames"
 )
+
+const tileSize float64 = 32
+const numRows float64 = 20
+const numCols float64 = 30
+
+const windowWitdth float64 = numCols * tileSize
+const windowHeight float64 = numRows * tileSize
 
 // Map will be rendered at screen
 type Map struct {
-	Form [][]string
+	Grid [][]string
 }
 
 // Draw map into screen
-func (m *Map) Draw() {
-	pixelgl.Run(run)
+func (m *Map) Draw(win *pixelgl.Window) {
+	for row := 0; float64(row) < numRows; row++ {
+		for col := 0; float64(col) < numCols; col++ {
+
+			var color pixel.RGBA
+			if m.Grid[row][col] == "1" {
+				color = pixel.RGB(1, 0, 0)
+			} else {
+				color = pixel.RGB(1, 1, 1)
+			}
+
+			xCoor := float64(col) * tileSize
+			yCoor := float64(row) * tileSize
+			square(color, xCoor, yCoor).Draw(win)
+		}
+	}
 }
 
-func ray(color pixel.RGBA, start float64, end float64) *imdraw.IMDraw {
+func square(color pixel.RGBA, x float64, y float64) *imdraw.IMDraw {
 	imd := imdraw.New(nil)
 	imd.Color = color
-	imd.Push(pixel.V(start, 300))
-	imd.Push(pixel.V(end, 300))
-	imd.Rectangle(600)
+	imd.Push(pixel.V(x, y))
+	imd.Push(pixel.V(x+tileSize, y+tileSize))
+	imd.Rectangle(0)
 	return imd
-}
-
-func run() {
-	cfg := pixelgl.WindowConfig{
-		Title:  "Wolfenmine",
-		Bounds: pixel.R(0, 0, 600, 400),
-		VSync:  true,
-	}
-
-	win, err := pixelgl.NewWindow(cfg)
-	if err != nil {
-		panic("Error at creating window")
-	}
-
-	win.Clear(colornames.Aliceblue)
-	for !win.Closed() {
-		(ray(pixel.RGBA{1, 0, 0, 1}, 0, 10)).Draw(win)
-		win.Update()
-	}
 }

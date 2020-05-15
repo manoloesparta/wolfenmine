@@ -1,31 +1,21 @@
 package main
 
 import (
-	"io/ioutil"
-	"strings"
 	"wolfenmine/ray"
+
+	"github.com/faiface/pixel/pixelgl"
 )
 
+var space ray.Map = ray.Map{Grid: ray.LoadMap()}
+
 func main() {
-	wolfmap := ray.Map{Form: loadMap()}
-	wolfmap.Draw()
+	pixelgl.Run(gameLoop)
 }
 
-func loadMap() [][]string {
-	file, err := ioutil.ReadFile("map")
-
-	if err != nil {
-		panic("Error at opening map file")
+func gameLoop() {
+	win := ray.Setup()
+	space.Draw(win)
+	for !win.Closed() {
+		win.Update()
 	}
-
-	content := strings.Split(string(file), "\n")
-
-	var result [][]string
-
-	for _, val := range content {
-		row := strings.Split(val, " ")
-		result = append(result, row)
-	}
-
-	return result
 }
