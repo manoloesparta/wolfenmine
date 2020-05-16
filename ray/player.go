@@ -32,8 +32,8 @@ func NewPlayer(win *pixelgl.Window) Player {
 		turnDirection: 0,
 		walkDirection: 0,
 		rotationAngle: math.Pi / 2,
-		moveSpeed:     3,
-		rotationSpeed: 3 * (math.Pi / 180),
+		moveSpeed:     5,
+		rotationSpeed: 5 * (math.Pi / 180),
 	}
 }
 

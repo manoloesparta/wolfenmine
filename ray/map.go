@@ -13,6 +13,11 @@ const numCols float64 = 30
 const windowWitdth float64 = numCols * tileSize
 const windowHeight float64 = numRows * tileSize
 
+var colors map[string]pixel.RGBA = map[string]pixel.RGBA{
+	"0": pixel.RGB(1, 1, 1),
+	"1": pixel.RGB(0, 0, 0),
+}
+
 // Map will be rendered at screen
 type Map struct {
 	Grid   [][]string
@@ -23,17 +28,12 @@ type Map struct {
 func (m *Map) Draw() {
 	for row := 0; float64(row) < numRows; row++ {
 		for col := 0; float64(col) < numCols; col++ {
-
-			var color pixel.RGBA
-			if m.Grid[row][col] == "1" {
-				color = pixel.RGB(0, 0, 0)
-			} else {
-				color = pixel.RGB(1, 1, 1)
-			}
+			key := m.Grid[row][col]
 
 			xCoor := float64(col) * tileSize
 			yCoor := float64(row) * tileSize
-			square(color, xCoor, yCoor).Draw(m.Window)
+
+			square(colors[key], xCoor, yCoor).Draw(m.Window)
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"time"
 	"wolfenmine/ray"
 
 	"github.com/faiface/pixel/pixelgl"
@@ -20,26 +21,27 @@ func gameLoop() {
 
 	for !win.Closed() {
 		if ray.KeyPressed(win) {
-
 			if win.Pressed(pixelgl.KeyW) {
 				player.Walk(1)
-			} else if win.Pressed(pixelgl.KeyS) {
-				player.Walk(-1)
-			} else if win.Pressed(pixelgl.KeyD) {
-				player.Turn(1)
-			} else if win.Pressed(pixelgl.KeyA) {
-				player.Turn(-1)
 			}
-
-			if win.JustReleased(pixelgl.KeyW) || win.JustReleased(pixelgl.KeyS) {
-				player.Walk(0)
-			} else if win.JustReleased(pixelgl.KeyD) || win.JustReleased(pixelgl.KeyA) {
-				player.Turn(0)
+			if win.Pressed(pixelgl.KeyS) {
+				player.Walk(-1)
+			}
+			if win.Pressed(pixelgl.KeyA) {
+				player.Turn(1)
+			}
+			if win.Pressed(pixelgl.KeyD) {
+				player.Turn(-1)
 			}
 
 			area.Draw()
 			player.Draw()
 		}
+
+		player.Walk(0)
+		player.Turn(0)
+
+		time.Sleep(time.Millisecond * 10)
 		win.Update()
 	}
 }
