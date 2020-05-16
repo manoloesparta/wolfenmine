@@ -2,7 +2,7 @@ package main
 
 import (
 	"time"
-	"wolfenmine/ray"
+	"wolfenmine/raycast"
 
 	"github.com/faiface/pixel/pixelgl"
 )
@@ -12,15 +12,15 @@ func main() {
 }
 
 func gameLoop() {
-	win := ray.Setup()
-	area := ray.Map{Grid: ray.LoadMap(), Window: win}
-	player := ray.NewPlayer(win)
+	win := raycast.Setup()
+	area := raycast.Map{Grid: raycast.LoadMap(), Window: win}
+	player := raycast.NewPlayer(win)
 
 	area.Draw()
-	player.Draw()
+	player.Draw(&area)
 
 	for !win.Closed() {
-		if ray.KeyPressed(win) {
+		if raycast.KeyPressed(win) {
 			if win.Pressed(pixelgl.KeyW) {
 				player.Walk(1)
 			}
@@ -35,7 +35,7 @@ func gameLoop() {
 			}
 
 			area.Draw()
-			player.Draw()
+			player.Draw(&area)
 		}
 
 		player.Walk(0)

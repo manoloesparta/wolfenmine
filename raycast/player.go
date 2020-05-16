@@ -1,13 +1,15 @@
-package ray
+package raycast
 
 import (
 	"math"
 
 	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/imdraw"
-
 	"github.com/faiface/pixel/pixelgl"
 )
+
+const fov = 60 * (math.Pi / 180)
+const wallWidth = 4
+const numRays = windowWitdth / wallWidth
 
 // Player is our point of view
 type Player struct {
@@ -48,32 +50,21 @@ func (p *Player) Turn(t float64) {
 }
 
 // Draw puts ourself in the map
-func (p *Player) Draw() {
+func (p *Player) Draw(m *Map) {
 	p.rotationAngle += p.turnDirection * p.rotationSpeed
 
 	step := p.walkDirection * p.moveSpeed
-	p.x += math.Cos(p.rotationAngle) * step
-	p.y += math.Sin(p.rotationAngle) * step
+	xNew := p.x + math.Cos(p.rotationAngle)*step
+	yNew := p.y + math.Sin(p.rotationAngle)*step
 
-	dir := line(pixel.RGB(1, 0, 0), p.x, p.y, p.x+math.Cos(p.rotationAngle)*50, p.y+math.Sin(p.rotationAngle)*50)
+	if !m.HasWallAt(xNew, yNew) {
+		p.x = xNew
+		p.y = yNew
+	}
+
+	dir := line(pixel.RGB(1, 0, 0), p.x, p.y, p.x+math.Cos(p.rotationAngle)*30, p.y+math.Sin(p.rotationAngle)*30)
 	cir := circle(pixel.RGB(1, 0, 0), p.x, p.y, p.radius)
 
 	dir.Draw(p.window)
 	cir.Draw(p.window)
-}
-
-func circle(color pixel.RGBA, x float64, y float64, radius float64) *imdraw.IMDraw {
-	imd := imdraw.New(nil)
-	imd.Color = color
-	imd.Push(pixel.V(x, y))
-	imd.Circle(radius, 0)
-	return imd
-}
-
-func line(color pixel.RGBA, xStart float64, yStart float64, xEnd float64, yEnd float64) *imdraw.IMDraw {
-	imd := imdraw.New(nil)
-	imd.Color = color
-	imd.Push(pixel.V(xStart, yStart), pixel.V(xEnd, yEnd))
-	imd.Line(2)
-	return imd
 }

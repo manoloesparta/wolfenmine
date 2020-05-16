@@ -1,8 +1,7 @@
-package ray
+package raycast
 
 import (
 	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
 )
 
@@ -38,10 +37,10 @@ func (m *Map) Draw() {
 	}
 }
 
-func square(color pixel.RGBA, x float64, y float64) *imdraw.IMDraw {
-	imd := imdraw.New(nil)
-	imd.Color = color
-	imd.Push(pixel.V(x, y), pixel.V(x+tileSize, y+tileSize))
-	imd.Rectangle(0)
-	return imd
+// HasWallAt returns if it's about to collide or not
+func (m *Map) HasWallAt(x float64, y float64) bool {
+	xIndex := int(x / 32)
+	yindex := int(y / 32)
+
+	return m.Grid[yindex][xIndex] != "0"
 }

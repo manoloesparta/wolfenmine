@@ -1,4 +1,4 @@
-package ray
+package raycast
 
 import (
 	"io/ioutil"
