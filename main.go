@@ -13,11 +13,13 @@ func main() {
 
 func gameLoop() {
 	win := raycast.Setup()
+
 	area := raycast.Map{Grid: raycast.LoadMap(), Window: win}
 	player := raycast.NewPlayer(win)
 
 	area.Draw()
 	player.Draw(&area)
+	raycast.CastAllRays(&player, win, &area)
 
 	for !win.Closed() {
 		if raycast.KeyPressed(win) {
@@ -36,12 +38,12 @@ func gameLoop() {
 
 			area.Draw()
 			player.Draw(&area)
+			raycast.CastAllRays(&player, win, &area)
 		}
-
 		player.Walk(0)
 		player.Turn(0)
 
-		time.Sleep(time.Millisecond * 10)
+		time.Sleep(time.Millisecond * 1)
 		win.Update()
 	}
 }

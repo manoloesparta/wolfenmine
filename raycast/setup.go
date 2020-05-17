@@ -43,10 +43,3 @@ func Setup() *pixelgl.Window {
 	win.Clear(colornames.Aliceblue)
 	return win
 }
-
-// KeyPressed is for checking if a update should be done
-func KeyPressed(win *pixelgl.Window) bool {
-	expr1 := win.Pressed(pixelgl.KeyW) || win.Pressed(pixelgl.KeyS)
-	expr2 := win.Pressed(pixelgl.KeyA) || win.Pressed(pixelgl.KeyD)
-	return expr1 || expr2
-}

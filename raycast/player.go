@@ -8,8 +8,6 @@ import (
 )
 
 const fov = 60 * (math.Pi / 180)
-const wallWidth = 4
-const numRays = windowWitdth / wallWidth
 
 // Player is our point of view
 type Player struct {
@@ -34,8 +32,8 @@ func NewPlayer(win *pixelgl.Window) Player {
 		turnDirection: 0,
 		walkDirection: 0,
 		rotationAngle: math.Pi / 2,
-		moveSpeed:     5,
-		rotationSpeed: 5 * (math.Pi / 180),
+		moveSpeed:     8,
+		rotationSpeed: 8 * (math.Pi / 180),
 	}
 }
 
@@ -47,6 +45,11 @@ func (p *Player) Walk(w float64) {
 // Turn changes your turn direction
 func (p *Player) Turn(t float64) {
 	p.turnDirection = t
+}
+
+// Position returns the current position
+func (p *Player) Position() (float64, float64) {
+	return p.x, p.y
 }
 
 // Draw puts ourself in the map
@@ -62,9 +65,11 @@ func (p *Player) Draw(m *Map) {
 		p.y = yNew
 	}
 
-	dir := line(pixel.RGB(1, 0, 0), p.x, p.y, p.x+math.Cos(p.rotationAngle)*30, p.y+math.Sin(p.rotationAngle)*30)
-	cir := circle(pixel.RGB(1, 0, 0), p.x, p.y, p.radius)
-
+	dirX := p.x + math.Cos(p.rotationAngle)*30
+	dirY := p.y + math.Sin(p.rotationAngle)*30
+	dir := line(pixel.RGB(1, 0, 0), p.x, p.y, dirX, dirY)
 	dir.Draw(p.window)
+
+	cir := circle(pixel.RGB(1, 0, 0), p.x, p.y, p.radius)
 	cir.Draw(p.window)
 }

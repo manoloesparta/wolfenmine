@@ -25,6 +25,7 @@ type Map struct {
 
 // Draw map into screen
 func (m *Map) Draw() {
+
 	for row := 0; float64(row) < numRows; row++ {
 		for col := 0; float64(col) < numCols; col++ {
 			key := m.Grid[row][col]
