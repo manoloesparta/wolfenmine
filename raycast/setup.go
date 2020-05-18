@@ -6,8 +6,26 @@ import (
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	"golang.org/x/image/colornames"
 )
+
+const (
+	numRows float64 = 24
+	numCols float64 = 24
+
+	// WindowWidth constant
+	WindowWidth float64 = 640
+	// WindowHeight constant
+	WindowHeight float64 = 400
+)
+
+// Colors for drawing a pixel
+var Colors map[string]pixel.RGBA = map[string]pixel.RGBA{
+	"0": pixel.RGB(1, 1, 1),
+	"1": pixel.RGB(0.2, 0.2, 0.2),
+	"2": pixel.RGB(1, 0, 0),
+	"3": pixel.RGB(0, 0, 1),
+	"4": pixel.RGB(0.5, 0.2, 0.8),
+}
 
 // LoadMap returns the content of the map file
 func LoadMap() [][]string {
@@ -31,7 +49,7 @@ func LoadMap() [][]string {
 func Setup() *pixelgl.Window {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Wolfenmine",
-		Bounds: pixel.R(0, 0, windowWitdth, windowHeight),
+		Bounds: pixel.R(0, 0, WindowWidth, WindowHeight),
 		VSync:  true,
 	}
 
@@ -40,6 +58,12 @@ func Setup() *pixelgl.Window {
 		panic("Error at creating window")
 	}
 
-	win.Clear(colornames.Aliceblue)
 	return win
+}
+
+// KeyPressed is for checking if a update should be done
+func KeyPressed(win *pixelgl.Window) bool {
+	expr1 := win.Pressed(pixelgl.KeyW) || win.Pressed(pixelgl.KeyS)
+	expr2 := win.Pressed(pixelgl.KeyA) || win.Pressed(pixelgl.KeyD)
+	return expr1 || expr2
 }
