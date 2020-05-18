@@ -65,5 +65,6 @@ func Setup() *pixelgl.Window {
 func KeyPressed(win *pixelgl.Window) bool {
 	expr1 := win.Pressed(pixelgl.KeyW) || win.Pressed(pixelgl.KeyS)
 	expr2 := win.Pressed(pixelgl.KeyA) || win.Pressed(pixelgl.KeyD)
-	return expr1 || expr2
+	expr3 := win.Pressed(pixelgl.KeyRight) || win.Pressed(pixelgl.KeyLeft)
+	return expr1 || expr2 || expr3
 }

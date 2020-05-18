@@ -55,6 +55,17 @@ func (p *Player) MoveBack(s float64, grid [][]string) {
 	}
 }
 
+// MoveSideWays can move from left to right and viceversa
+func (p *Player) MoveSideWays(s float64, grid [][]string) {
+	if grid[int(p.Position.X-p.Plane.X*s)][int(p.Position.Y)] == "0" {
+		p.Position.X -= p.Plane.X * s
+	}
+
+	if grid[int(p.Position.X)][int(p.Position.Y-p.Plane.Y*s)] == "0" {
+		p.Position.Y -= p.Plane.Y * s
+	}
+}
+
 // Cast makes the necesary calculations for casting
 func (p *Player) Cast(grid [][]string) *pixel.Sprite {
 

@@ -11,15 +11,14 @@ In a nutshell this is just an implementation of the ray casting algorithm heavil
 ## Requirements
 
 ```bash
-go 1.14
+go 1.14 (or newer)
 ```
 
 ## Run
 
 ```bash
-git clone https://github.com/manoloesparta/wolfenmine
-cd wolfenmine
-go mod init wolf
+git clone https://github.com/manoloesparta/wolfenmine wolfen
+cd wolfen
 go run main.go
 ```
 

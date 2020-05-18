@@ -1,7 +1,7 @@
 package main
 
 import (
-	"wolfenmine/raycast"
+	"wolfen/raycast"
 
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
